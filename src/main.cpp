@@ -1,9 +1,9 @@
 #include "lib.h"
-#include "PucmanGameController.hpp"
+#include "PacmanGameController.hpp"
 
 int main(int argc, char const *argv[])
 {
-	PucmanGameController	game;
+	PacmanGameController	*game = PacmanGameController::getInstance("./map/map1");
 
 	return 0;
 }

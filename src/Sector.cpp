@@ -1,5 +1,6 @@
 #include "Sector.hpp"
 
+
 Sector::Sector() {
 		this->listObj = 0;
 }

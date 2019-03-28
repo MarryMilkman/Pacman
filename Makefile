@@ -7,7 +7,12 @@ SRC_DIR	:= ./src/
 INC_DIR := ./inc/
 
 # Source and object files
-SRC		:= main.cpp Game.cpp Map.cpp Human.cpp Computer.cpp
+SRC		:= main.cpp PacmanGameController.cpp \
+		Player.cpp GhostRandomer.cpp GhostPursuer.cpp \
+		IObject.cpp IEnemy.cpp Sector.cpp\
+		Point.cpp BigPoint.cpp \
+		_getch.cpp
+
 OBJ		:= $(addprefix $(OBJ_DIR), $(SRC:.cpp=.o))
 
 # Header files

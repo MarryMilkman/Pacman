@@ -3,6 +3,8 @@
 
 # include "lib.h"
 
+#include "IObject.hpp"
+
 class Sector
 {
 public:
@@ -11,7 +13,7 @@ public:
 	Sector(Sector const &ref);
 	~Sector();
 
-	sed::vector<IObject *>		listObj;
+	std::vector<IObject *>		listObj;
 
 	static void	moveObj(IObject *obj, Sector &s1, Sector &s2);
 

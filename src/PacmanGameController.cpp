@@ -1,5 +1,7 @@
 #include "PacmanGameController.hpp"
-
+#include "Player.hpp"
+#include "IObject.hpp"
+#include "IEnemy.hpp"
 
 PacmanGameController::PacmanGameController(std::string fileMap) {
 	// create map structure
@@ -8,8 +10,8 @@ PacmanGameController::PacmanGameController(std::string fileMap) {
 	this->_initGameData(fileMap);
 }
 
-PacmanGameController	&PacmanGameController::getInstance() {
-	static PacmanGameController		controller("./map/map1");
+PacmanGameController	*PacmanGameController::getInstance(std::string fileMap) {
+	static PacmanGameController		*controller = new PacmanGameController(fileMap);
 
 	return controller;
 }
@@ -21,8 +23,8 @@ void					PacmanGameController::doCycle() {
 	this->_player->setDirection();
 	i = this->_listEnemy.size();
 	while (i-- > 0)
-		this->_listEnemy[i]->setDirection;
-	this->_moveObject();
+		this->_listEnemy[i]->setDirection();
+	this->_motionTracking();
 	this->_checkCollision();
 	this->_updateEnemy();
 	this->_drow();
@@ -37,6 +39,7 @@ void					PacmanGameController::_motionTracking() {
 
 	// for player
 	this->_moveObj(player, player->getDirection());
+	// for enemy
 	i = -1;
 	size = ths->_listEnemy.size();
 	while (++i < size) {
@@ -97,7 +100,17 @@ void					PacmanGameController::_checkCollision() {
 			i = -1;
 			continue;
 		}
-		// if (objType == ObjType::BigPoint)
+		if (objType == ObjType::BigPoint) {
+
+			// add option for kill ghost
+			this->score += 100;
+			delete checkObj;
+			checkObj = 0;
+			listObj.erase(listObj.begin() + i);
+			size--;
+			i = -1;
+			continue;
+		}
 		if (objType == ObjType::EnemyRandomer || objType == ObjType::EnemyPursuer) {
 			this->endGame();
 		}
@@ -115,14 +128,15 @@ void				PacmanGameController::_initGameDate(std::string path_map) {
 }
 
 void				PacmanGameController::_parsMapAndInitGameObjects(std::string path_map) {
-	int						y = 0;
+	int						y = -1;
 	std::fstream			fd;
 	std::string				line;
 	std::vector<Sector *>	horizontal;	
 
 	fd.open(path_map, std::fstream::in);
 	while (std::getline(fd, line))
-		this->_parsLine_AndInit(line, horizontal, y++);
+		this->_parsLine_AndInit(line, horizontal, ++y);
+	this->_max_y = y;
 	fd.close();
 }
 
@@ -135,6 +149,12 @@ void				PacmanGameController::_parsLine_AndInit(std::string line, std::vector<Se
 	while (++i < size) {
 		obj = this->_parsLine_AndInit_createObj(line[i], i, y);
 		sector = new Sector(obj)
+	}
+	if (this->_max_x == 0)
+		this->_max_x = i;
+	else if (this->_max_x != i){
+		std::cout << "ERROR: invalid map (different number of fild)";
+		exit(0);
 	}
 }
 
@@ -163,11 +183,60 @@ IObject				*PacmanGameController::_parsLine_AndInit_createObj(char c, int x, int
 	else if (c == '.') {
 		rObject = new Point(x, y);
 	}
+	else if (c == '*') {
+		rObject = new BigPoint(x, y);
+	}
+	else {
+		std::cout << "ERROR: invalid map (undefined symbol for map)";
+		exit(0);
+	}
 	return rObject;
 }
 
 
+// Drow Map
 
+void			PacmanGameController::_drow() {
+
+#ifdef TEST_MOD
+	int		i;
+	int		j;
+	TypeObj	type;
+	char	c;
+
+	i = -1;
+	while (++i < this->_max_y) {
+		j = -1;
+		while (++j < this->_max_x) {
+			type = this->_map[i][j]->getType();
+			if (type == TypeObj::Player)
+				std::cout << "P";
+			else if (type == TypeObj::GhostPursuer)
+				std::cout << "E";
+			else if (type == TypeObj::GhostRandomer)
+				std::cout << "R";
+			else if (type == TypeObj::GhostPoint)
+				std::cout << ".";
+			else if (type == TypeObj::GhostBigPoint)
+				std::cout << "*";
+			else if (type == TypeObj::Border)
+				std::cout << "#";
+			else
+				std::cout << " ";
+		}
+		std::cout << "\n";
+	}
+	c = _getch();
+	if (c == LEFT)
+		this->_moveReg = Direction::Left;
+	else if (c == UP)
+		this->_moveReg = Direction::Up;
+	else if (c == RIGHT)
+		this->_moveReg = Direction::Right;
+	else if (c == DOWN)
+		this->_moveReg = Direction::Down;
+#endif
+}
 
 
 

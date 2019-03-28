@@ -8,3 +8,7 @@ void		IObject::updateCoord(int x, int y) {
 Direction	IObject::getDirection() {
 	return (this->direction);
 }
+
+ObjType		getType() {
+	return (this->_type);
+}

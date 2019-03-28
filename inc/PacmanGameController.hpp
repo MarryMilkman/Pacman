@@ -3,15 +3,16 @@
 
 # include "lib.h"
 # include "Sector.hpp"
+class Player;
+#include "IEnemy.hpp"
 
-class PacmanGameConroller
+class PacmanGameController
 {
 public:
-	PacmanGameConroller() = delete;
-	PacmanGameConroller(PacmanGameConroller const & ref) = delete;
-	~PacmanGameConroller();
+	PacmanGameController(PacmanGameController const & ref) = delete;
+	virtual ~PacmanGameController();
 
-	static PacmanGameConroller	&getInstance();
+	static PacmanGameController	*getInstance(std::string fileMap);
 
 	void					startGame();
 	void					doCycle();
@@ -20,23 +21,26 @@ public:
 	const Sector			**getMap();
 	int						getMoveReg();
 
-	PacmanGameConroller		&operator=(PacmanGameConroller const & ref) = delete;
+	PacmanGameController		&operator=(PacmanGameController const & ref) = delete;
 
 private:
-	PacmanGameConroller(std::string	fileMap);
+	PacmanGameController(std::string fileMap);
 
 	int						_score;
 	Player					*_player;
 	std::vector<IEnemy *>	_listEnemy;
 	// std::vector<Pont>		_listPont;
 	// std::vector<BigPoint>	_listBigPoint;
-	int						_moveReg;
+	Direction				_moveReg;
 	Sector					**_map;
 
 	int						_max_x;
 	int						_max_y;
+	int						_botCount;
+	int						_max_botCount;
 
-	void					_moveObject();
+	void					_motionTracking();
+	void					_moveObj(IObject *obj, Direction dir);
 	void					_checkCollision();
 	void					_drow();
 
