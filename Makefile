@@ -1,5 +1,5 @@
 # Name of the program
-NAME	:= x_o
+NAME	:= pacman
 
 # Directories
 OBJ_DIR	:= ./obj/
@@ -10,7 +10,7 @@ INC_DIR := ./inc/
 SRC		:= main.cpp PacmanGameController.cpp \
 		Player.cpp GhostRandomer.cpp GhostPursuer.cpp \
 		IObject.cpp IEnemy.cpp Sector.cpp\
-		Point.cpp BigPoint.cpp \
+		Point.cpp BigPoint.cpp Border.cpp\
 		_getch.cpp
 
 OBJ		:= $(addprefix $(OBJ_DIR), $(SRC:.cpp=.o))
@@ -20,7 +20,7 @@ INC	:= game_lib.h
 
 # Compiler and flags
 CC		:= g++
-FLAGS	:= -Wall -Wextra -std=c++11
+FLAGS	:= -std=c++11# -Wall -Wextra 
 
 # Compile and link the program
 all: obj_dir $(NAME)

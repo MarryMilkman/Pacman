@@ -1,8 +1,11 @@
 #include "BigPoint.hpp"
 
 
-BigPoint::BigPoint(int x, int y) : x(x), y(y), _direction(Direction::None), _type(TypeObj::BigPoint) {
-
+BigPoint::BigPoint(int x, int y) {
+	this->x = x;
+	this->y = y;
+	this->_type = ObjType::t_BigPoint;
+	this->_direction = Direction::None; 
 }
 
 
@@ -20,6 +23,6 @@ BigPoint		&BigPoint::operator=(BigPoint const &ref) {
 	return (*this);
 }
 
-int					BigPoint::getDirection() {
+int					BigPoint::setDirection() {
 	return 1;
 }

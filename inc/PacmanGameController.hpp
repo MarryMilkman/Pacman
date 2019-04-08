@@ -14,19 +14,25 @@ public:
 
 	static PacmanGameController	*getInstance(std::string fileMap);
 
-	void					startGame();
-	void					doCycle();
-	void					endGame();
+	// void					startGame();
+	int						doCycle();
+	int						endGame();
 
-	const Sector			**getMap();
-	int						getMoveReg();
+	Sector					**getMap();
+	Direction				getMoveReg();
 
-	PacmanGameController		&operator=(PacmanGameController const & ref) = delete;
+	int						getPlayerCoord_x();
+	int						getPlayerCoord_y();
+	int						get_max_x();
+	int						get_max_y();
+
+	PacmanGameController	&operator=(PacmanGameController const & ref) = delete;
 
 private:
 	PacmanGameController(std::string fileMap);
 
 	int						_score;
+	GameStatus				_gameStatus;
 	Player					*_player;
 	std::vector<IEnemy *>	_listEnemy;
 	// std::vector<Pont>		_listPont;
@@ -41,10 +47,18 @@ private:
 
 	void					_motionTracking();
 	void					_moveObj(IObject *obj, Direction dir);
+	int						_checkBorderInDirection(int x, int y, Direction dir);
+	int						_checkConditionForWin(int x, int y, Direction dir);
+
 	void					_checkCollision();
-	void					_drow();
 
 	void					_initGameData(std::string path_map);
+	void					_parsMapAndInitGameObjects(std::string path_map);
+	void					_parsLine_AndInit(std::string line, std::vector<Sector *> &horizontals, int y);
+	IObject					*_parsLine_AndInit_createObj(char c, int x, int y);
+	void					_addHorysontal(std::vector<Sector *> horisontals, int y);
+
+	void					_drow();
 };
 
 #endif

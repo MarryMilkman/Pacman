@@ -6,7 +6,7 @@
 class IObject
 {
 public:
-	virtual ~IObject();
+	virtual ~IObject() {}
 
 	virtual int	setDirection() = 0;
 	void		updateCoord(int	x, int y);
@@ -18,7 +18,7 @@ public:
 	Direction	getDirection();
 	ObjType		getType();
 
-private:
+protected:
 
 	ObjType		_type;
 	Direction	_direction;

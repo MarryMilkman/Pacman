@@ -1,8 +1,11 @@
 #include "Point.hpp"
 
 
-Point::Point(int x, int y) : x(x), y(y), _direction(Direction::None), _type(TypeObj::Point) {
-
+Point::Point(int x, int y) {
+	this->x = x;
+	this->y = y;
+	this->_type = ObjType::t_Point;
+	this->_direction = Direction::None;
 }
 
 
@@ -20,6 +23,6 @@ Point		&Point::operator=(Point const &ref) {
 	return (*this);
 }
 
-int					Point::getDirection() {
+int					Point::setDirection() {
 	return 1;
 }

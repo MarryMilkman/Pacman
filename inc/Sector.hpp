@@ -9,19 +9,20 @@ class Sector
 {
 public:
 	Sector();
-	Sector(IObject *obj);
+	Sector(std::vector<IObject *> listObj);
 	Sector(Sector const &ref);
 	~Sector();
 
 	std::vector<IObject *>		listObj;
 
 	static void	moveObj(IObject *obj, Sector &s1, Sector &s2);
+	static int	delite_fromSector_obj(Sector &sector, IObject *obj);
 
 	Sector		&operator=(Sector const &ref);
 	void		operator>>(Sector &ref);
 
 private:
-	int			find_IterationToObj_inList(IObject const *obj) const;
+	int			_find_IterationToObj_inList(IObject const *obj) const;
 };
 
 #endif

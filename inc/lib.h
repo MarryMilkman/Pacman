@@ -6,11 +6,11 @@
 # include <sstream>
 # include <vector>
 
-#define TESTMOD 1
-#define LEFT 37
-#define RIGHT 39
-#define	UP 38
-#define DOWN 40
+#define TEST_MOD 1
+#define LEFT 75
+#define RIGHT 77
+#define	UP 72
+#define DOWN 80
 
 
 # ifdef __APPLE__
@@ -34,11 +34,17 @@ enum ObjType {
 };
 
 enum Direction {
-	Left = 0,
-	Right,
-	Up,
-	Down,
-	None
+	Left = 4,
+	Right = 6,
+	Up = 8,
+	Down = 2,
+	None = 0
+};
+
+enum GameStatus {
+	Lose = 0,
+	Win,
+	Default
 };
 
 #endif

@@ -7,13 +7,12 @@ class Player: public IObject
 {
 public:
 	Player(int x, int y);
+	Player(Player const & ref);
 	~Player();
 	
 	int			setDirection() override;
 
-private:
-
-
+	Player		&operator=(Player const & ref);
 
 };
 
